@@ -12,7 +12,7 @@
     </label><br/><br/>
 
     <label>
-        Nome:<br/>
+        Adicionar:<br/>
         <input type="submit" value="adicionar">
     </label><br/><br/>
 </form>
