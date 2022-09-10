@@ -1,6 +1,8 @@
 <?php
 
-require "config.php";
+require 'config.php';
+require 'DAO/UsuarioDAOMySQL.php';
+$usuarioDao = new UsuarioDAOMySQL($pdo);
 
 $name = filter_input(INPUT_POST,"name");
 $email= filter_input(INPUT_POST,"email", FILTER_VALIDATE_EMAIL);
