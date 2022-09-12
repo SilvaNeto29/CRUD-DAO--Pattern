@@ -6,7 +6,6 @@
 
     $usuarioDao = new UsuarioDAOMySQL($pdo);
     $lista = $usuarioDao->findAll();
-    print_r($lista);
     ?>
 
 

@@ -9,24 +9,22 @@ $email= filter_input(INPUT_POST,"email", FILTER_VALIDATE_EMAIL);
 
 if($name && $email){
 
-    $sql = $pdo->prepare("SELECT * FROM usuarios WHERE EMAIL = :email");
-    $sql->bindValue(':email', $email);
-    $sql->execute();
+    if($usuarioDao->findByEmail($email) === false){
 
-    if($sql->rowCount() === 0){
+        $newUser = new Usuario();
+        $newUser->setNome($name);
+        $newUser->setEmail($email);
 
-    //prepare faz protecoes de seguranca na sql 
-    $sql = $pdo->prepare("INSERT INTO usuarios (USUARIO, EMAIL) VALUES (:name,:email)");
-    $sql->bindValue(':name',$name);
-    $sql->bindValue(':email',$email);
-    $sql->execute();
+        $usuarioDao->add($newUser);
 
-    header("Location: index.php");
+        header("Location: index.php");
+        exit;
+    } else {
+        header("Location: adicionar.php");
+        echo 'Houve um erro';
+        exit;
+    }
 } else {
-    // header("Location: adicionar.php");
-    echo "<p>Adicione um usuario que ainda não foi cadastrado</p>";
-}
-
-}else{
     header("Location: adicionar.php");
+    exit;
 }

@@ -1,6 +1,8 @@
 <?php
 
-require "config.php";
+require 'config.php';
+require 'DAO/UsuarioDAOMySQL.php';
+$usuarioDao = new UsuarioDAOMySQL($pdo);
 
 $id = filter_input(INPUT_POST,"id");
 $name = filter_input(INPUT_POST,"name");
@@ -8,21 +10,16 @@ $email= filter_input(INPUT_POST,"email", FILTER_VALIDATE_EMAIL);
 
 if($name && $email && $id){
 
-    $sql = $pdo->prepare("UPDATE 
-                            usuarios
-                          SET 
-                            USUARIO = :name,
-                            EMAIL = :email
-                          WHERE ID = :id");
+    $usuario = new Usuario;
+    $usuario->setId($id);
+    $usuario->setNome($name);
+    $usuario->setEmail($email);
 
-    $sql->bindValue(':name', $name);
-    $sql->bindValue(':email', $email);
-    $sql->bindValue(':id', $id);
-    $sql->execute();
+    $usuarioDao->update($usuario);
 
     header('Location: index.php');
     exit;
 } else {
-    header('Location: adicionar.php'); 
+    header('Location: editar.php?id='.$id); 
     exit;
 }
